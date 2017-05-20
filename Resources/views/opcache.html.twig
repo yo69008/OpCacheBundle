@@ -3,6 +3,9 @@
     <head>
         <meta charset="UTF-8" />
         <title>Opcache Status</title>
+        <meta name="viewport" content="maximum-scale=1.5"/>
+        <meta name="description" content="Bundle for opcache status monitor"/>
+        <meta name="keywords" content="php, opcache, bundle"/>
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
         <style>
 {% include '@OpCacheBundle/Resources/views/css/template.css.twig' %}
@@ -61,14 +64,13 @@ this.onload = function () {
 			<div id="memory">
 				<h2>Memory usage</h2>
 				<style scoped>
-					h3 {
+					#memory h3 {
+						background:
 {% if 50 <= free_memory %}
-						background: 
 				            linear-gradient(270deg, #28a745 50%, transparent 50%, transparent),
 				            linear-gradient({{ (((free_memory - 50) * 3.6) + 270)|round }}deg, #28a745 50%, transparent 50%, transparent),
 				            linear-gradient({{ (((used_memory + free_memory - 50) * 3.6) + 270)|round }}deg, #ff4d4d 50%, #4dd2ff 50%, #4dd2ff);
 {% else %}
-						background: 
 				            linear-gradient({{ ((free_memory * 3.6) + 270)|round }}deg, #ff4d4d 50%, transparent 50%, transparent),
 				            linear-gradient({{ (450 - (wasted_memory * 3.6))|round }}deg, #ff4d4d 50%, transparent 50%, transparent),
 				            linear-gradient(270deg, #28a745 50%, #4dd2ff 50%, #4dd2ff);
@@ -76,7 +78,7 @@ this.onload = function () {
 					}
 				</style>
 				<h3>
-					<span>{{ (opcache.getMemoryFree() + opcache.getMemoryUsed() + opcache.getMemoryWasted())|round(2) }} MB</span>
+					<span>{{ (opcache.getMemoryFree() + opcache.getMemoryUsed() + opcache.getMemoryWasted())|round }} MB</span>
 				</h3>
 				<ul>
 					<li>
@@ -95,19 +97,16 @@ this.onload = function () {
 			</div>
 			<div id="keys">
 				<style scoped>
-					h3 {
+					#keys h3 {
+						background:
 {% if 50 <= free_key %}
-						background: 
 				            linear-gradient(270deg, #28a745 50%, transparent 50%, transparent),
 				            linear-gradient({{ (((free_key - 50) * 3.6) + 270)|round }}deg, #28a745 50%, transparent 50%, transparent),
 				            linear-gradient({{ (((used_key + free_key - 50) * 3.6) + 270)|round }}deg, #ff4d4d 50%, #4dd2ff 50%, #4dd2ff);
-						}
 {% else %}
-						background: 
 				            linear-gradient({{ ((free_key * 3.6) + 270)|round }}deg, #ff4d4d 50%, transparent 50%, transparent),
 				            linear-gradient({{ (450 - (wasted_key * 3.6))|round }}deg, #ff4d4d 50%, transparent 50%, transparent),
 				            linear-gradient(270deg, #28a745 50%, #4dd2ff 50%, #4dd2ff);
-						}
 {% endif %}
 					}
 				</style>
@@ -132,18 +131,15 @@ this.onload = function () {
 			</div>
 			<div id="hits">
 				<style scoped>
-					h3 {
+					#hits h3 {
+						background: 
 {% if 50 <= hits_hit %}
-					background: 
-			            linear-gradient(270deg, #28a745 50%, transparent 50%, transparent),
-			            linear-gradient({{ (((hits_hit - 50) * 3.6) + 270)|round }}deg, #28a745 50%, transparent 50%, transparent),
-			            linear-gradient({{ (((misses_hit + hits_hit - 50) * 3.6) + 270)|round }}deg, #ff4d4d 50%, #ff4d4d 50%, #ff4d4d);
-					}
+				            linear-gradient(270deg, #28a745 50%, transparent 50%, transparent),
+				            linear-gradient({{ (((hits_hit - 50) * 3.6) + 270)|round }}deg, #28a745 50%, transparent 50%, transparent),
+				            linear-gradient({{ (((misses_hit + hits_hit - 50) * 3.6) + 270)|round }}deg, #ff4d4d 50%, #ff4d4d 50%, #ff4d4d);
 {% else %}
-					background: 
-			            linear-gradient({{ ((hits_hit * 3.6) + 270)|round }}deg, #ff4d4d 50%, transparent 50%, transparent),
-			            linear-gradient(270deg, #28a745 50%, #ff4d4d 50%, #ff4d4d);
-					}
+				            linear-gradient({{ ((hits_hit * 3.6) + 270)|round }}deg, #ff4d4d 50%, transparent 50%, transparent),
+				            linear-gradient(270deg, #28a745 50%, #ff4d4d 50%, #ff4d4d);
 {% endif %}
 					}
 				</style>
