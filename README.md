@@ -18,7 +18,7 @@ Clone this repository
 ```
 git clone https://github.com/seeren/OpCacheBundle.git
 ```
-Update AppKernel
+Update AppKernel.php
 ```php
 new OpCacheBundle\OpCacheBundle(),
 ```
