@@ -1,6 +1,6 @@
 {
     "name": "seeren/OpCacheBundle",
-    "description": "Bundle for opcache status monitor",
+    "description": "Bundle for opcache status monitoring",
     "keywords": ["php", "opcache" ,"bundle"],
     "type": "library",
     "license": "MIT",
