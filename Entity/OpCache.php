@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="opcache")
  * @ORM\Entity
  */
-class Opcache
+class OpCache
 {
     /**
      * @var integer

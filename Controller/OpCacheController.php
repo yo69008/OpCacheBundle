@@ -4,7 +4,7 @@ namespace OpCacheBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use OpCacheBundle\Entity\Opcache;
+use OpCacheBundle\Entity\OpCache;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -61,7 +61,7 @@ class OpCacheController extends Controller
         $this->script = [];
         $this->date = date("Y-m-d");
         if (!($entity = $this->readEntity())) {
-            $entity = new Opcache;
+            $entity = new OpCache;
             $this->buildEntity($entity);
             if ($entity->getDate()) {
                 $this->getDoctrine()->getManager()->persist($entity);
@@ -81,7 +81,7 @@ class OpCacheController extends Controller
      * @param Opcache $entity
      * @param string $date
      */
-    protected function buildEntity(Opcache $entity)
+    protected function buildEntity(OpCache $entity)
     {
         if (!function_exists("opcache_get_status")
          || !($status = opcache_get_status())) {
@@ -123,7 +123,7 @@ class OpCacheController extends Controller
         $entities = $this
         ->getDoctrine()
         ->getManager()
-        ->getRepository(Opcache::class)
+        ->getRepository(OpCache::class)
         ->findAll();
         if ($entities) {
             foreach ($entities as $entity) {
@@ -144,7 +144,7 @@ class OpCacheController extends Controller
         return $this
         ->getDoctrine()
         ->getManager()
-        ->getRepository(Opcache::class)
+        ->getRepository(OpCache::class)
         ->findOneBy(["date" => $this->date]);
     }
 
@@ -154,7 +154,7 @@ class OpCacheController extends Controller
      * @param Opcache $entity
      * @return Response
      */
-    protected function getResponse(Opcache $entity): Response
+    protected function getResponse(OpCache $entity): Response
     {
 
         if ($this->enable) {
