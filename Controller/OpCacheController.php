@@ -156,20 +156,16 @@ class OpCacheController extends Controller
      */
     protected function getResponse(OpCache $entity): Response
     {
-
-        if ($this->enable) {
-            $memory = $entity->getMemoryFree()
-                    + $entity->getMemoryUsed()
-                    + $entity->getMemoryWasted();
-            $key = ($entity->getKeyMax() - $entity->getKeyCached())
-                 + $entity->getKeyCached()
-                 + ($entity->getKeyCached() - $entity->getScriptCached());
-            $hit = $entity->getHitMisses() + $entity->getHitHits();
-        } else {
-            $memory = 1;
-            $key = 1;
-            $hit = 1;
-        }
+        $memory = !$this->enable ? 1 : $entity->getMemoryFree()
+                                     + $entity->getMemoryUsed()
+                                     + $entity->getMemoryWasted();
+        $key = !$this->enable ? 1 :($entity->getKeyMax()
+                                  - $entity->getKeyCached())
+                                  + $entity->getKeyCached()
+                                  + ($entity->getKeyCached()
+                                  - $entity->getScriptCached());
+        $hit = !$this->enable ? 1 : $entity->getHitMisses()
+                                  + $entity->getHitHits();
         return $this->render(
             '@OpCacheBundle/Resources/views/opcache.html.twig', [
                 "opcache" => $entity,
