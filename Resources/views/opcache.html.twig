@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Opcache Status</title>
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        <style>
+{% include '@OpCacheBundle/Resources/views/css/template.css.twig' %}
+{% include '@OpCacheBundle/Resources/views/css/header.css.twig' %}
+{% include '@OpCacheBundle/Resources/views/css/nav.css.twig' %}
+{% include '@OpCacheBundle/Resources/views/css/box.css.twig' %}
+{% include '@OpCacheBundle/Resources/views/css/graphic.css.twig' %}
+{% include '@OpCacheBundle/Resources/views/css/scripts.css.twig' %}
+{% include '@OpCacheBundle/Resources/views/css/opcache.css.twig' %}
+{% include '@OpCacheBundle/Resources/views/css/portrait.css.twig' %}
+        </style>
+        <script>
+this.onload = function () {
+	var navChilds = this.document.getElementsByTagName("nav")[0].childNodes;
+	for (var i = 0; i < navChilds.length; i++) {
+		if (!navChilds[i].tagName) {
+			continue;
+		}
+		navChilds[i].onclick = function () {
+			var navChilds = this.parentNode.childNodes;
+        	for (var i = 0; i < this.parentNode.childNodes.length; i++) {
+        		if (!this.parentNode.childNodes[i].tagName) {
+        			continue;
+        		}
+        		this.parentNode.childNodes[i].setAttribute(
+	        		"class",
+	        		this.parentNode.childNodes[i]
+	        	   .getAttribute("class").replace(" active", "")
+        		);
+        	}
+    		this.setAttribute(
+        		"class",
+        		this.getAttribute("class") + " active"
+    		);
+		}
+	}
+	this.onload = null;
+}
+        </script>
+    </head>
+    <body>
+
+		<header>
+		     <a class="logo" href="{{ path('opcache') }}" title="OpCache">Opcache</a>
+			 <a class="clear button" href="{{ path('opcache_delete')}}" title="Clear">Clear</a>
+		</header>
+
+		<nav>
+			<a class="memory" title="Memory" href="#memory"><span>Memory</span></a>
+			<a class="keys" title="Keys" href="#keys"><span>Keys</span></a>
+			<a class="hits" title="Hits" href="#hits"><span>Hits</span></a>
+			<a class="scripts" title="Scripts" href="#scripts"><span>Scripts</span></a>
+		</nav>
+
+		<section>
+			<div id="memory">
+				<h2>Memory usage</h2>
+				<style scoped>
+					h3 {
+{% if 50 <= free_memory %}
+						background: 
+				            linear-gradient(270deg, #28a745 50%, transparent 50%, transparent),
+				            linear-gradient({{ (((free_memory - 50) * 3.6) + 270)|round }}deg, #28a745 50%, transparent 50%, transparent),
+				            linear-gradient({{ (((used_memory + free_memory - 50) * 3.6) + 270)|round }}deg, #ff4d4d 50%, #4dd2ff 50%, #4dd2ff);
+{% else %}
+						background: 
+				            linear-gradient({{ ((free_memory * 3.6) + 270)|round }}deg, #ff4d4d 50%, transparent 50%, transparent),
+				            linear-gradient({{ (450 - (wasted_memory * 3.6))|round }}deg, #ff4d4d 50%, transparent 50%, transparent),
+				            linear-gradient(270deg, #28a745 50%, #4dd2ff 50%, #4dd2ff);
+{% endif %}
+					}
+				</style>
+				<h3>
+					<span>{{ (opcache.getMemoryFree() + opcache.getMemoryUsed())|round(2) }} MB</span>
+				</h3>
+				<ul>
+					<li>
+						<em>Memory</em><em>MB</em><em>%</em><br><br>
+					</li>
+					<li>
+						<b class="green">Free</b><b>{{ opcache.getMemoryFree()}} MB</b><b>{{ free_memory }}%</b>
+					</li>
+					<li>
+						<b class="red">Used</b><b>{{ opcache.getMemoryUsed()}} MB</b><b>{{ used_memory }}%</b>
+					</li>
+					<li>
+						<b class="yellow">Wasted</b><b>{{ opcache.getMemoryWasted()}} MB</b><b>{{ wasted_memory }}%</b>
+					</li>
+				</ul>
+			</div>
+			<div id="keys">
+				<style scoped>
+					h3 {
+{% if 50 <= free_key %}
+						background: 
+				            linear-gradient(270deg, #28a745 50%, transparent 50%, transparent),
+				            linear-gradient({{ (((free_key - 50) * 3.6) + 270)|round }}deg, #28a745 50%, transparent 50%, transparent),
+				            linear-gradient({{ (((used_key + free_key - 50) * 3.6) + 270)|round }}deg, #ff4d4d 50%, #4dd2ff 50%, #4dd2ff);
+						}
+{% else %}
+						background: 
+				            linear-gradient({{ ((free_key * 3.6) + 270)|round }}deg, #ff4d4d 50%, transparent 50%, transparent),
+				            linear-gradient({{ (450 - (wasted_key * 3.6))|round }}deg, #ff4d4d 50%, transparent 50%, transparent),
+				            linear-gradient(270deg, #28a745 50%, #4dd2ff 50%, #4dd2ff);
+						}
+{% endif %}
+					}
+				</style>
+				<h2>Keys</h2>
+				<h3>
+					<span>{% if 0 < opcache.getKeyMax() %}{{ opcache.getKeyMax() }}{% else %}0{% endif %}</span>
+				</h3>
+				<ul>
+					<li>
+						<em>Keys</em><em>Key</em><em>%</em><br><br>
+					</li>
+					<li>
+						<b class="green">Free</b><b>{% if 0 < opcache.getKeyMax() %}{{ opcache.getKeyMax() - opcache.getKeyCached() }}{% endif %}</b><b>{{ free_key }}%</b>
+					</li>
+					<li>
+						<b class="red">Cached</b><b>{{ opcache.getKeyCached() }}</b><b>{{ used_key }}%</b>
+					</li>
+					<li>
+						<b class="yellow">Wasted</b><b>{% if 0 < opcache.getKeyMax() %}{{ opcache.getKeyCached() - opcache.getScriptCached()}}{% endif %}</b><b>{{ wasted_key }}%</b>
+					</li>
+				</ul>
+			</div>
+			<div id="hits">
+				<style scoped>
+					h3 {
+{% if 50 <= hits_hit %}
+					background: 
+			            linear-gradient(270deg, #28a745 50%, transparent 50%, transparent),
+			            linear-gradient({{ (((hits_hit - 50) * 3.6) + 270)|round }}deg, #28a745 50%, transparent 50%, transparent),
+			            linear-gradient({{ (((misses_hit + hits_hit - 50) * 3.6) + 270)|round }}deg, #ff4d4d 50%, #ff4d4d 50%, #ff4d4d);
+					}
+{% else %}
+					background: 
+			            linear-gradient({{ ((hits_hit * 3.6) + 270)|round }}deg, #ff4d4d 50%, transparent 50%, transparent),
+			            linear-gradient(270deg, #28a745 50%, #ff4d4d 50%, #ff4d4d);
+					}
+{% endif %}
+					}
+				</style>
+				<h2>Hits</h2>
+				<h3>
+					<span>{{ opcache.getHitHits() + opcache.getHitMisses() }}</span>
+				</h3>
+				<ul>
+					<li>
+						<em>Hits</em><em>Hit</em><em>%</em><br><br>
+					</li>
+					<li>
+						<b class="green">Hits</b><b>{{ opcache.getHitHits() }}</b><b>{{ hits_hit }}%</b>
+					</li>
+					<li>
+						<b class="red">Misses</b><b>{{ opcache.getHitMisses() }}</b><b>{{ misses_hit }}%</b>
+					</li>
+				</ul>
+			</div>
+			<div id="scripts">
+				<h2>{{ scripts }} Scripts</h2>
+				<div>
+{% if opcache.getScript() is iterable %}
+{% for key,value in opcache.getScript() %}
+					<span>
+					<b>{{ (value.memory_consumption / 1024 )|round(2) }}KB</b>
+					{{ key }}
+					</span>
+{% endfor %}
+{% else %}
+					<p class="alert shadow">Scripts are not available for archives</p>
+{% endif %}
+				</div>
+			</div>
+			<div id="opcache">
+		     	<h2>Opcache monitor for PHP {{ php_version }}</h2>
+				<div>
+{% if enable %}
+		     		<p>
+		     			<b>[{{ opcache.getDate() }}]</b>
+			    		Restarted {{ opcache.getRestartManual() }} times
+{% if opcache.getRestartManual() %}
+						, cleared {{ time - opcache.getRestartLast() }} seconds ago
+{% endif %}
+		 			</p>
+{% endif %}
+{% if not enable %}
+					<p class="alert shadow">Opcache is not enabled</p>
+{% else %}
+{% for value in date %}
+					<a{% if value != opcache.getDate() %} href="{{ path('opcache_date', {'date': value}) }}"{% else %} class="active button"{% endif %} class="button">{{ value }}</a>
+{% endfor %}
+{% endif %}
+				</div>
+			</div>
+		</section>
+
+    </body>
+</html>

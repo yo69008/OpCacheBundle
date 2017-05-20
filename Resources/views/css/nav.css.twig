@@ -1,0 +1,50 @@
+/**
+ * Nav
+ */
+nav {
+	background-color: #24292e;
+}
+nav a {
+	color: #ffffff;
+	background-color: #2d3339;
+	display: block;
+	font-weight: bold;
+	padding: 1em 5%;
+	margin: .5em 0;
+	overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 90%;
+	box-sizing: border-box;
+}
+nav a:hover,
+nav .active {
+	background-color: #ffffff;
+	color: #24292e;
+}
+nav a:before {
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+	display: inline-block;
+	background: #ffffff;
+	padding: .5em;
+	color: #24292e;
+	font-size: 1.2em;
+	margin-right: 1em;
+	max-width: 90%;
+}
+nav a:hover:before,
+nav .active:before {
+	box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+nav .memory:before {
+	content:'Mo';
+}
+nav .keys:before {
+	content:'Ks';
+}
+nav .hits:before {
+	content:'Hs';
+}
+nav .scripts:before {
+	content:'Sc';
+}
