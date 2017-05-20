@@ -21,9 +21,7 @@
     },
     "autoload-dev": {
 	    "psr-4": {
-	        "OpCacheBundle\\Controller\\": "Controller",
-	        "OpCacheBundle\\Entity\\": "Entity",
-	        "OpCacheBundle\\Tests\\": "Tests"
+	        "OpCacheBundle\\": ""
 	    }
 	}
 }
