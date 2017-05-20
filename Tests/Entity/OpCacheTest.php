@@ -1,6 +1,6 @@
 <?php
 
-namespace OpCacheBundle\Tests\Controller;
+namespace OpCacheBundle\Tests\Entity;
 
 use OpCacheBundle\Entity\OpCache;
 use ReflectionClass;
@@ -16,7 +16,7 @@ class OpCacheTest extends \PHPUnit\Framework\TestCase
      *
      * @return OpCache
      */
-   private function getOpCache(): OpCache
+   public function getOpCache(): OpCache
    {
        return (new ReflectionClass(OpCache::class))
        ->newInstanceArgs([]);
