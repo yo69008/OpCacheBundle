@@ -76,7 +76,7 @@ this.onload = function () {
 					}
 				</style>
 				<h3>
-					<span>{{ (opcache.getMemoryFree() + opcache.getMemoryUsed())|round(2) }} MB</span>
+					<span>{{ (opcache.getMemoryFree() + opcache.getMemoryUsed() + opcache.getMemoryWasted())|round(2) }} MB</span>
 				</h3>
 				<ul>
 					<li>

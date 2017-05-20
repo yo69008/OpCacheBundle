@@ -90,11 +90,11 @@ class OpCacheController extends Controller
         $this->enable = (bool) $status["opcache_enabled"];
         $entity->setDate($this->date);
         $entity->setMemoryUsed(
-            round($status["memory_usage"]["used_memory"] / 1000 / 1000, 2));
+            round($status["memory_usage"]["used_memory"] / 1024 / 1024, 2));
         $entity->setMemoryFree(
-            round( $status["memory_usage"]["free_memory"] / 1000 / 1000, 2));
+            round( $status["memory_usage"]["free_memory"] / 1024 / 1024, 2));
         $entity->setMemoryWasted(
-            round($status["memory_usage"]["wasted_memory"]/ 1000 / 1000,2));
+            round($status["memory_usage"]["wasted_memory"]/ 1024 / 1024, 2));
         $entity->setRestartLast(
             $status["opcache_statistics"]["last_restart_time"]);
         $entity->setRestartManual(
