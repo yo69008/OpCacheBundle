@@ -16,12 +16,14 @@
       "php": ">=7.0.1",
       "symfony/symfony": "3.2.*"
     },
-    "autoload": {
-      "psr-4": {
-        "OpCacheBundle\\": "/"
-      }
-    },
     "require-dev": {
         "phpunit/phpunit": "6.1"
-    }
+    },
+    "autoload-dev": {
+	    "psr-4": {
+	        "OpCacheBundle\\Controller\\": "Controller",
+	        "OpCacheBundle\\Entity\\": "Entity",
+	        "OpCacheBundle\\Tests\\": "Tests"
+	    }
+	}
 }
